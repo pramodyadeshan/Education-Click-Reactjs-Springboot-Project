@@ -1,0 +1,39 @@
+{
+  "annotations": {
+    "changelogDate": "20240506173445"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uploadDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fileLocation",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "StudyMaterial",
+  "pagination": "infinite-scroll",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "teacher",
+      "relationshipName": "teacher",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no"
+}

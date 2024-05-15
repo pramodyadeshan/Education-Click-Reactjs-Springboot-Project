@@ -1,0 +1,263 @@
+import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Button } from 'reactstrap';
+import { ValidatedField, ValidatedForm } from 'react-jhipster';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { createEntity, getEntity, updateEntity } from './student.reducer';
+import { FiArrowLeft, FiSave } from 'react-icons/fi';
+
+export const StudentUpdate = () => {
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+  const buttonRef = useRef(null);
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
+
+  const studentEntity = useAppSelector(state => state.student.entity);
+  const loading = useAppSelector(state => state.student.loading);
+  const updating = useAppSelector(state => state.student.updating);
+  const updateSuccess = useAppSelector(state => state.student.updateSuccess);
+
+  const handleClose = () => {
+    navigate('/student');
+  };
+
+  useEffect(() => {
+    if (!isNew) {
+      dispatch(getEntity(id));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      handleClose();
+    }
+  }, [updateSuccess]);
+
+  // eslint-disable-next-line complexity
+  const saveEntity = values => {
+    if (values.id !== undefined && typeof values.id !== 'number') {
+      values.id = Number(values.id);
+    }
+
+    const entity = {
+      ...studentEntity,
+      ...values,
+    };
+
+    if (isNew) {
+      dispatch(createEntity(entity));
+    } else {
+      dispatch(updateEntity(entity));
+    }
+  };
+
+  const defaultValues = () =>
+    isNew
+      ? {}
+      : {
+          ...studentEntity,
+        };
+  const clickButtonById = buttonId => {
+    const buttonElement = document.getElementById(buttonId);
+    if (buttonElement) {
+      buttonElement.click();
+    }
+  };
+
+  return (
+    <div className="text-dark">
+      <div className="d-flex h-100 overflow-hidden">
+        <div className="flex-grow-1">
+          <main className="d-flex justify-content-center align-items-center mt-3">
+            <div className="container">
+              <h1 className="text-center text-zinc-600 my-4 font-sans xl:text-4xl lg:text-4xl md:text-3xl sm:text-3xl min-[320px]:text-3xl max-[639px]:text-4xl antialiased font-medium leading-snug tracking-normal ">
+                Create or Update Student Details
+              </h1>
+              <div className="row overflow-hidden">
+                <div className="col-md-3 col-12 mb-3"></div>
+                <div className="col-md-6 col-12 mb-3">
+                  <div className="relative flex w-full flex-col rounded-xl bg-white mx-4 my-4 card">
+                    <div className="relative mt-2 flex justify-center items-center overflow-hidden bg-white rounded-xl">
+                      <img src="../../../content/images/icon/Teacher-boy.jpg" alt="ui/ux review" className="object-cover w-60 h-60" />
+                    </div>
+
+                    <div className="p-8 pt-2">
+                      <div className="mb-2 text-center">
+                        <h5 className="block font-sans text-3xl antialiased font-medium leading-snug tracking-normal text-gray-600">
+                          {studentEntity.firstName} {studentEntity.lastName}
+                        </h5>
+                        <p className="text-zinc-500 text-sm py-2">{studentEntity.email}</p>
+                        <h5 className="block font-sans text-md antialiased font-bold leading-snug tracking-normal text-gray-700 flex justify-center items-center">
+                          {studentEntity.contactNo}
+                        </h5>
+                      </div>
+                      <div className="bg-white rounded-lg p-4">
+                        <div className="flex flex-wrap -mx-3 mb-6 justify-content-center items-center">
+                          <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity} className="w-100">
+                            {!isNew ? (
+                              <ValidatedField name="id" type="hidden" required readOnly id="student-id" validate={{ required: true }} />
+                            ) : null}
+
+                            <ValidatedField
+                              label="First Name"
+                              id="student-firstName"
+                              name="firstName"
+                              data-cy="firstName"
+                              type="text"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+                            <ValidatedField
+                              label="Last Name"
+                              id="student-lastName"
+                              name="lastName"
+                              data-cy="lastName"
+                              type="text"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+
+                            <ValidatedField
+                              label="Contact No"
+                              id="student-contactNo"
+                              name="contactNo"
+                              data-cy="contactNo"
+                              type="text"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+
+                            <ValidatedField
+                              label="Date Of Birth"
+                              id="student-dateOfBirth"
+                              name="dateOfBirth"
+                              data-cy="dateOfBirth"
+                              type="date"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+
+                            <ValidatedField
+                              label="Gender"
+                              id="student-gender"
+                              name="gender"
+                              data-cy="gender"
+                              type="text"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+
+                            <ValidatedField
+                              label="Email"
+                              id="student-email"
+                              name="email"
+                              data-cy="email"
+                              type="text"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+
+                            <ValidatedField label="Address" id="student-address" name="address" data-cy="address" type="text" />
+
+                            <ValidatedField
+                              label="Subject"
+                              id="student-subject"
+                              name="subject"
+                              data-cy="subject"
+                              type="text"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+                            <ValidatedField
+                              label="Username"
+                              id="student-username"
+                              name="username"
+                              data-cy="username"
+                              type="text"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+                            <ValidatedField
+                              label="Password"
+                              id="student-password"
+                              name="password"
+                              data-cy="password"
+                              type="password"
+                              validate={{
+                                required: { value: true, message: 'This field is required.' },
+                              }}
+                            />
+                            <ValidatedField
+                              label="Guardian Name"
+                              id="student-guardianName"
+                              name="guardianName"
+                              data-cy="guardianName"
+                              type="text"
+                            />
+                            <ValidatedField
+                              label="Guardian Contact"
+                              id="student-guardianContact"
+                              name="guardianContact"
+                              data-cy="guardianContact"
+                              type="text"
+                            />
+
+                            <ValidatedField
+                              label="Guardian Email"
+                              id="student-guardianEmail"
+                              name="guardianEmail"
+                              data-cy="guardianEmail"
+                              type="text"
+                            />
+
+                            <Button
+                              id="save-entity"
+                              ref={buttonRef}
+                              data-cy="entityCreateSaveButton"
+                              type="submit"
+                              className="hidden cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 hover:text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70"
+                            >
+                              <FiSave className="w-5 h-5" />
+                            </Button>
+                          </ValidatedForm>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap justify-center items-center gap-3 mt-2 group">
+                        <Button
+                          tag={Link}
+                          to={`/student`}
+                          className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 hover:text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70"
+                        >
+                          <FiArrowLeft className="w-5 h-5" />
+                        </Button>
+                        <Button
+                          onClick={() => clickButtonById('save-entity')}
+                          className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 hover:text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70"
+                        >
+                          <FiSave className="w-5 h-5" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-3 col-12 mb-3"></div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default StudentUpdate;

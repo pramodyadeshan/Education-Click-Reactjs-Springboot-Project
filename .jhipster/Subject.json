@@ -1,0 +1,17 @@
+{
+  "annotations": {
+    "changelogDate": "20240506084018"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Subject",
+  "pagination": "infinite-scroll",
+  "relationships": [],
+  "searchEngine": "no"
+}

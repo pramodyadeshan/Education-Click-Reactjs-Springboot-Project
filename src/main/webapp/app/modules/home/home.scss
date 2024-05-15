@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.side-line {
+  width: 50px;
+  height: 1px;
+  background-color: rgb(83, 69, 245) !important;
+}
+
+/* Style for the central line with circle */
+.middle-line {
+  position: relative;
+  width: 50px;
+  height: 1px;
+  background-color: rgb(83, 69, 245) !important;
+}
+
+/* Style for the inner circle */
+.inner-circle {
+  position: absolute;
+  top: -5px; /* Adjust vertical position of the circle */
+  left: calc(50% - 5px); /* Center the circle horizontally */
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgb(83, 69, 245) !important;
+}
